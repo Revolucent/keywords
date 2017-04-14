@@ -8,7 +8,7 @@ CREATE DATABASE keywords;
 CREATE EXTENSION citext;
 CREATE EXTENSION hstore;
 
-CREATE TYPE tag AS ENUM ('os', 'lang', 'data', 'ide', 'cloud', 'web', 'mobile', 'frwk', 'vcs', 'desktop');
+CREATE TYPE tag AS ENUM ('os', 'lang', 'data', 'ide', 'aws', 'web', 'mobile', 'vcs', 'desktop');
 
 CREATE TABLE keyword
 (
@@ -34,8 +34,8 @@ BEGIN
   PERFORM keyword('Linux', '{os}');
   PERFORM keyword('Ubuntu', '{os}');
   PERFORM keyword('iOS', '{os,mobile}', '2.0', '10.0');
-  PERFORM keyword('Android', '{os,mobile}');
-  PERFORM keyword('Windows Phone', '{os,mobile}');
+  PERFORM keyword('Android', '{os,mobile}', '4.0 KitKat', '7.0 Nougat');
+  PERFORM keyword('Windows Phone', '{os,mobile}', '8', '10');
 
   -- Languages
   PERFORM keyword('Swift', '{lang}', '1.0', '3.0');
@@ -53,42 +53,53 @@ BEGIN
   PERFORM keyword('XSLT', '{lang}', '2.0');
   PERFORM keyword('XPath', '{lang}');
   PERFORM keyword('JSON', '{lang,web}');
-  PERFORM keyword('JavaScript', '{lang,web}');
+  PERFORM keyword('JavaScript', '{lang,web}', '3', '6');
   PERFORM keyword('CoffeeScript', '{lang,web}');
   PERFORM keyword('XAML', '{lang}');
   PERFORM keyword('VimScript', '{lang}');
   PERFORM keyword('PowerShell', '{lang}', '1.0', '5.1');
+  PERFORM keyword('Lua', '{lang}');
+  PERFORM keyword('Clojure', '{lang}');
 
   -- Data Technologies
   PERFORM keyword('PostgreSQL', '{data}', '8.4', '9.6');
   PERFORM keyword('Microsoft SQL Server', '{data}', '6', '12');
   PERFORM keyword('MySQL', '{data}', '4.0', '5.7');
-  PERFORM keyword('SQLite', '{data}');
+  PERFORM keyword('SQLite', '{data}', '3.5.5', '3.18.0');
   PERFORM keyword('Core Data', '{data}');
   PERFORM keyword('SQL', '{data}');
 
   -- Web Technologies
-  PERFORM keyword('Ruby on Rails', '{frwk,web}', '3.0', '5.0');
+  PERFORM keyword('Ruby on Rails', '{web}', '3.0', '5.0');
   PERFORM keyword('ASP.NET MVC', '{web}', '2.0', '5.0');
+  PERFORM keyword('Heroku', '{web}');
 
   -- Frameworks
-  PERFORM keyword('.NET', '{frwk}', '1.0');
-  PERFORM keyword('WPF', '{frwk,desktop}');
-  PERFORM keyword('Cocoa', '{frwk,desktop}');
-  PERFORM keyword('Cocoa Touch', '{frwk,mobile}');
+--  PERFORM keyword('.NET', '{frwk}', '1.0');
+  PERFORM keyword('WPF', '{desktop}');
+  PERFORM keyword('Cocoa', '{desktop}', '10.0', '10.12');
+  PERFORM keyword('Cocoa Touch', '{mobile}', '2.0', '10.0');
   
   -- IDEs
-  PERFORM keyword('Vim', '{ide}');
-  PERFORM keyword('Visual Studio', '{ide}');
-  PERFORM keyword('Atom', '{ide}');
+  PERFORM keyword('Vim', '{ide}', '7.3', '8.0');
+  PERFORM keyword('Visual Studio', '{ide}', '6.0', '2017');
+  PERFORM keyword('Atom', '{ide}', '1.0', '1.16');
   PERFORM keyword('Xcode', '{ide}', '1.0', '8.0');
-  PERFORM keyword('Android Studio', '{ide,mobile}');
+  PERFORM keyword('Android Studio', '{ide,mobile}', '0.8', '2.3');
 
   -- Version Control System
   PERFORM keyword('Git', '{vcs}');
 
-  -- Cloud
-  PERFORM keyword('AWS (EC2, EB, RDS, DynamoDB, Lambda, etc.)', '{cloud}');
+  -- Amazon
+  PERFORM keyword('EC2', '{aws}');
+  PERFORM keyword('S3', '{aws}');
+  PERFORM keyword('RDS', '{aws}');
+  PERFORM keyword('DynamoDB', '{aws,data}');
+  PERFORM keyword('Lambda', '{aws}');
+  PERFORM keyword('Elastic Beanstalk', '{aws}');
+  PERFORM keyword('IAM', '{aws}');
+  PERFORM keyword('SNS', '{aws}');
+  
 END;
 
 $$;
@@ -119,7 +130,7 @@ CREATE TABLE talent
 );
 
 DO $$
-DECLARE _tags HSTORE DEFAULT 'Mobile => mobile, Web => web, Languages => lang, "Data Technologies" => data';
+DECLARE _tags HSTORE DEFAULT 'Mobile => mobile, Web => web, Languages => lang, "Data Technologies" => data, "Amazon Web Services (AWS)" => aws, "IDEs & Editors" => ide, "Operating Systems" => os';
 DECLARE _key TEXT;
 DECLARE _talents TEXT;
 BEGIN
