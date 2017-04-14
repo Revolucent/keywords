@@ -114,8 +114,8 @@ $$;
 
 CREATE TABLE talent
 (
-  category TEXT NOT NULL PRIMARY KEY
-, talents TEXT NOT NULL
+  category CITEXT NOT NULL PRIMARY KEY
+, talents CITEXT NOT NULL
 );
 
 DO $$
