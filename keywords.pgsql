@@ -141,7 +141,7 @@ BEGIN
         (   category
         ,   talents   )
     SELECT  _key
-        ,   ARRAY_TO_STRING(ARRAY_AGG(talent), ', ')
+        ,   ARRAY_TO_STRING(ARRAY_AGG(talent), ' • ')
     FROM    (SELECT format_keyword(keyword.*) talent FROM keyword WHERE tags @> ARRAY[_tags -> _key]::tag[] ORDER BY keyword) k;
   END LOOP;
 END;
