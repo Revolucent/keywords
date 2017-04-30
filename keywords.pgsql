@@ -8,7 +8,7 @@ CREATE DATABASE keywords;
 CREATE EXTENSION citext;
 CREATE EXTENSION hstore;
 
-CREATE TYPE tag AS ENUM ('os', 'lang', 'data', 'ide', 'aws', 'web', 'mobile', 'vcs', 'desktop');
+CREATE TYPE tag AS ENUM ('os', 'lang', 'data', 'ide', 'aws', 'web', 'mobile', 'vcs', 'desktop', 'misc');
 
 CREATE TABLE keyword
 (
@@ -36,6 +36,9 @@ BEGIN
   PERFORM keyword('iOS', '{os,mobile}', '2.0', '10.0');
   PERFORM keyword('Android', '{os,mobile}', '4.0 KitKat', '7.0 Nougat');
   PERFORM keyword('Windows Phone', '{os,mobile}', '8', '10');
+
+  -- Mobile
+  PERFORM keyword('Xcode Storyboards', '{desktop,mobile}');
 
   -- Languages
   PERFORM keyword('Swift', '{lang}', '1.0', '3.0');
